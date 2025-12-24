@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
 
 export default function CallbackPage() {
   const router = useRouter();
@@ -22,6 +21,9 @@ export default function CallbackPage() {
           router.push(`/auth?error=${encodeURIComponent(errorDescription || error || "Authentication failed")}`);
           return;
         }
+
+        // Lazy-load supabase client on the client only
+        const { supabase } = await import("@/lib/supabase");
 
         // If code is present, exchange it for session
         if (code) {
