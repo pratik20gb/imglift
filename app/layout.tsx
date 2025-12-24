@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "imglift",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "https://imglift.online/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "imglift - Background Removal Tool",
@@ -44,8 +44,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "imglift - Remove Image Backgrounds Instantly",
     description: "Free, ultra-clean background removal tool. Remove image backgrounds instantly with AI-powered precision.",
-    images: ["/og-image.jpg"],
-    creator: "@shori_pratik",
+    images: ["https://imglift.online/og-image.jpg"],
+    creator: "@sage_pratik",
   },
   robots: {
     index: true,

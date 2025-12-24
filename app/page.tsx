@@ -699,7 +699,7 @@ export default function Page() {
                 aria-label="X (Twitter)"
               >
                 <a
-                  href="https://x.com/shori_pratik"
+                  href="https://x.com/sage_pratik"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center"
