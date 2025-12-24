@@ -359,7 +359,7 @@ export default function Page() {
   };
 
   return (
-    <main className="h-screen bg-gradient-to-br from-background to-muted flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-gradient-to-br from-background to-muted flex flex-col lg:flex-row relative overflow-y-auto">
       {/* Background Pattern */}
       <div 
         className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
@@ -387,6 +387,55 @@ export default function Page() {
         <div className="w-full max-w-4xl">
           <Card className="border-border/60 shadow-lg backdrop-blur-sm bg-card/95">
             <CardContent className="p-4 sm:p-6 lg:p-8">
+              {/* Top bar inside main canvas: history + auth shortcuts */}
+              <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                  {user && (
+                    <>
+                      <User className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+                      <span className="truncate max-w-[180px] sm:max-w-[260px]">
+                        {user.email}
+                      </span>
+                    </>
+                  )}
+                </div>
+                <div className="flex flex-wrap items-center gap-2 justify-end">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-[11px] sm:text-xs"
+                    onClick={() => router.push("/history")}
+                  >
+                    <History className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1.5" />
+                    <span className="hidden sm:inline">History</span>
+                    <span className="sm:hidden">History</span>
+                  </Button>
+                  {!user ? (
+                    <Button
+                      size="sm"
+                      variant="default"
+                      className="text-[11px] sm:text-xs"
+                      onClick={() => router.push("/auth")}
+                    >
+                      <LogIn className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1.5" />
+                      <span className="hidden sm:inline">Sign in / Sign up</span>
+                      <span className="sm:hidden">Sign in</span>
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-[11px] sm:text-xs"
+                      onClick={handleSignOut}
+                    >
+                      <LogOut className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1.5" />
+                      <span className="hidden sm:inline">Sign Out</span>
+                      <span className="sm:hidden">Logout</span>
+                    </Button>
+                  )}
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
                 {/* Upload Section */}
                 <div
@@ -545,9 +594,9 @@ export default function Page() {
         </div>
       </div>
 
-      {/* RIGHT HALF: Sidebar - Auth, Socials, Stats */}
-      <div className="w-full lg:w-[400px] xl:w-[450px] flex flex-col p-4 sm:p-6 lg:p-8 relative z-10 border-t lg:border-t-0 lg:border-l border-border/30 bg-background/50 backdrop-blur-sm overflow-y-auto">
-        <div className="flex flex-col gap-6 sm:gap-8">
+      {/* RIGHT HALF: Sidebar - Brand, Stats, Socials, Support */}
+      <div className="w-full lg:w-[400px] xl:w-[450px] flex flex-col pt-4 sm:pt-6 lg:pt-8 px-4 sm:px-6 lg:px-8 pb-0 relative z-10 border-t lg:border-t-0 lg:border-l border-border/30 bg-background/50 backdrop-blur-sm overflow-y-auto">
+        <div className="flex flex-col gap-6 sm:gap-8 min-h-full">
           {/* Brand Title */}
           <div className="space-y-2">
             <CardTitle className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-[1.15]">
@@ -597,7 +646,7 @@ export default function Page() {
                 className="w-full rounded-xl bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-200 group"
               >
                 <a
-                  href="https://github.com/pratik20gb/bg-remover"
+                  href="https://github.com/pratik20gb/imglift"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2"
@@ -658,67 +707,30 @@ export default function Page() {
                   <X className="h-4 w-4 group-hover:scale-110 transition-transform duration-200" />
                 </a>
               </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary px-2 py-1 rounded-lg"
+              >
+                <span className="relative inline-flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-green-500/60 animate-ping" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
+                </span>
+                <span>Pratik Raj</span>
+              </Button>
             </div>
           </div>
+          
+          {/* Spacer to push footer to bottom */}
+          <div className="flex-1" />
 
-          {/* Auth Section */}
-          <div className="flex flex-col gap-3">
-            {!authLoading && (
-              user ? (
-                <>
-                  {/* User Info */}
-                  <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-muted/80">
-                    <User className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-sm truncate flex-1">
-                      {user.email}
-                    </span>
-                  </div>
-
-                  {/* Credits Display */}
-                  {userCredits !== null && (
-                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-primary/8 border border-primary/20 shadow-xs">
-                      <div className="flex flex-col leading-tight">
-                        <span className="text-sm font-semibold text-primary">
-                          {userCredits.remaining} credit{userCredits.remaining !== 1 ? "s" : ""} left
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {userCredits.used}/{userCredits.total} used
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Action Buttons */}
-                  <div className="flex flex-col gap-2">
-                    <Button
-                      onClick={() => router.push("/history")}
-                      variant="outline"
-                      className="w-full"
-                    >
-                      <History className="h-4 w-4 mr-2" />
-                      History
-                    </Button>
-                    <Button
-                      onClick={handleSignOut}
-                      variant="outline"
-                      className="w-full"
-                    >
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Sign Out
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <Button
-                  onClick={() => router.push("/auth")}
-                  variant="default"
-                  className="w-full"
-                >
-                  <LogIn className="h-4 w-4 mr-2" />
-                  Sign In
-                </Button>
-              )
-            )}
+          {/* Full-width footer mark */}
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8 mt-4 border-t border-border/40 bg-background/60">
+            <div className="px-4 sm:px-6 lg:px-8 py-3 text-right">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/45 select-none">
+                sage
+              </span>
+            </div>
           </div>
         </div>
       </div>

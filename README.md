@@ -34,8 +34,8 @@ A modern, AI-powered background removal tool built with Next.js, Supabase, and R
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd bg-remover
+   git clone https://github.com/pratik20gb/imglift.git
+   cd imglift
    ```
 
 2. **Install dependencies**
@@ -73,7 +73,7 @@ A modern, AI-powered background removal tool built with Next.js, Supabase, and R
 ## Project Structure
 
 ```
-bg-remover/
+imglift/
 ├── app/
 │   ├── api/
 │   │   ├── remove-bg/      # Background removal API
