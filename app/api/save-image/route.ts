@@ -80,6 +80,25 @@ export async function POST(req: Request) {
       .from("processed-images")
       .getPublicUrl(data.path);
 
+    // Create short URL
+    const shortId = Math.random().toString(36).substring(2, 10);
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://imglift.online";
+    const shortUrl = `${baseUrl}/i/${shortId}`;
+
+    // Save short URL mapping to database
+    try {
+      await supabase.from("short_urls").insert({
+        short_id: shortId,
+        original_url: urlData.publicUrl,
+        created_at: new Date().toISOString(),
+      });
+    } catch (shortUrlError) {
+      // If short URL creation fails, log but continue
+      if (process.env.NODE_ENV === "development") {
+        console.error("Failed to create short URL:", shortUrlError);
+      }
+    }
+
     // Save metadata to database
     // Use service role key to bypass RLS for server-side operations
     const insertData = {
@@ -110,7 +129,8 @@ export async function POST(req: Request) {
       if (dbError.code === "42501" || dbError.message?.includes("permission") || dbError.message?.includes("policy")) {
         return NextResponse.json({
           success: true,
-          url: urlData.publicUrl,
+          url: shortUrl,
+          originalUrl: urlData.publicUrl,
           path: data.path,
           warning: "Image saved to storage, but history not saved. Please set SUPABASE_SERVICE_ROLE_KEY in your .env.local file to enable history tracking.",
           dbError: "RLS policy blocked insert. Service role key required.",
@@ -120,7 +140,8 @@ export async function POST(req: Request) {
       // Return error but still return the URL since storage upload succeeded
       return NextResponse.json({
         success: true,
-        url: urlData.publicUrl,
+        url: shortUrl,
+        originalUrl: urlData.publicUrl,
         path: data.path,
         warning: "Image saved but history not recorded: " + (dbError.message || "Unknown error"),
         dbError: dbError.message,
@@ -129,7 +150,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      url: urlData.publicUrl,
+      url: shortUrl,
+      originalUrl: urlData.publicUrl,
       path: data.path,
       historyId: dbData?.[0]?.id,
     });
