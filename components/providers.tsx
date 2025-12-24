@@ -3,6 +3,7 @@
 import { AuthProvider } from "@/lib/auth-context";
 import { Toaster } from "@/components/ui/sonner";
 import { LoadingScreen } from "@/components/loading-screen";
+import { Analytics } from "@vercel/analytics/react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <LoadingScreen />
       {children}
       <Toaster />
+      <Analytics />
     </AuthProvider>
   );
 }
