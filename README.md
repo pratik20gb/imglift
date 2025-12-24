@@ -2,6 +2,8 @@
 
 > Free, ultra-clean background removal with a modern, minimal UI.
 
+![imglift Screenshot](./public/og-image.jpg)
+
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-imglift.online-blue?style=for-the-badge)](https://imglift.online)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
