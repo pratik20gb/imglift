@@ -15,7 +15,49 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "imglift - Remove Image Backgrounds Instantly",
-  description: "Upload an image and remove its background instantly with imglift",
+  description: "Free, ultra-clean background removal tool. Remove image backgrounds instantly with AI-powered precision. Modern, minimal UI built with Next.js and Supabase.",
+  keywords: ["background removal", "remove background", "image editor", "AI background removal", "free background remover"],
+  authors: [{ name: "Pratik Raj" }],
+  creator: "Pratik Raj",
+  publisher: "Pratik Raj",
+  metadataBase: new URL("https://imglift.online"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "imglift - Remove Image Backgrounds Instantly",
+    description: "Free, ultra-clean background removal tool. Remove image backgrounds instantly with AI-powered precision.",
+    url: "https://imglift.online",
+    siteName: "imglift",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "imglift - Background Removal Tool",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "imglift - Remove Image Backgrounds Instantly",
+    description: "Free, ultra-clean background removal tool. Remove image backgrounds instantly with AI-powered precision.",
+    images: ["/og-image.jpg"],
+    creator: "@shori_pratik",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
